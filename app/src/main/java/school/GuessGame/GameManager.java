@@ -11,13 +11,12 @@ public class GameManager {
     }
 
     public void startGame() {
-        game.init();
         Scanner in = new Scanner(System.in);
         String guess;
         int x;
         int y;
         int result;
-        while(game.triesLeft>0) {
+        while((game.starsFound != game.goldenTiles) && (game.triesLeft > 0)) {
             game.grid.printGrid();
             System.out.print("\n");
             System.out.println("Tries Left: "+game.triesLeft+

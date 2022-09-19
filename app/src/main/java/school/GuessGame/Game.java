@@ -10,9 +10,10 @@ public class Game {
     public int guessesMade = 0;
     public int starsFound = 0;
     
-    public Game(Grid grid,int goldenTiles) {
+    public Game(Grid grid,int goldenTiles, int initialTries) {
         this.grid = grid;
         this.goldenTiles = goldenTiles;
+        this.triesLeft = initialTries;
         init();
     }
 
@@ -29,11 +30,10 @@ public class Game {
             int y = random.nextInt(grid.size-1);
             if(!(grid.girdOfTiles[x][y].isGolden())) {
                 grid.girdOfTiles[x][y].setGolden(true);
-                System.out.println("x:"+x+" y:"+y); //DEBUG
+                // System.out.println("x:"+x+" y:"+y); //DEBUG
                 count++;
             }
         }
-        triesLeft = (int) (Math.pow(grid.size, 2))/((int)Math.sqrt(grid.size));
         rewardTries = triesLeft/4;
         if(rewardTries < 1) {
             rewardTries = 1;
@@ -41,13 +41,15 @@ public class Game {
     }
 
     public int tryToHit(int x, int y) {
-        if(x<grid.size && y<grid.size && y>0 && x>0){
+        if(x<grid.size && y<grid.size && y>=0 && x>=0){
             if(!(grid.girdOfTiles[x][y].isBroken())){
                 if(grid.girdOfTiles[x][y].isGolden()){
                     starsFound++;
                     triesLeft += rewardTries;
+                    grid.girdOfTiles[x][y].setChat(2);
                 }
                 else {
+                    grid.girdOfTiles[x][y].setChat(1);
                     triesLeft--;
                 }
                 guessesMade++;
